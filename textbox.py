@@ -3,9 +3,10 @@ from tkinter.scrolledtext import ScrolledText
 
 
 class App(tk.Tk):
-    def __init__(self, title='', width=640, height=480, user_callback=None, users_callback_args=None, rate=1.0):
+    def __init__(self, icon='icon.ico', title='', width=640, height=480, user_callback=None, users_callback_args=None, rate=1.0):
         super().__init__()
         self.title(title)
+        self.iconbitmap(default=icon)
         self.geometry(f'{width}x{height}')
         self.scrolled_text = ScrolledText(self)
         self.scrolled_text.pack(padx=5, pady=5, fill=tk.BOTH, side=tk.LEFT, expand=True)
@@ -42,5 +43,5 @@ def my_callback(widget, args):
 
 
 if __name__ == "__main__":
-    app = App(title='title', width=640, height=480, user_callback=my_callback, rate=0)
+    app = App(icon='icon.ico', title='title', width=640, height=480, user_callback=my_callback, rate=0)
     app.mainloop()
