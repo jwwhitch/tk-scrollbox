@@ -12,7 +12,10 @@ class App(tk.Tk):
         self.user_callback = user_callback
         self.users_callback_args = self
         self.rate = rate
-        self.after(int(1000.0 / self.rate), self.callback)
+        if self.rate:
+            self.after(int(1000.0 / self.rate), self.callback)
+        else:
+            self.after(0, self.callback)
 
     def insert(self, text, line=1, column=0):
         self.scrolled_text.insert(f'{line}.{column}', text)
@@ -22,7 +25,8 @@ class App(tk.Tk):
 
     def callback(self):
         self.user_callback(self, self.users_callback_args)
-        self.after(int(1000.0 / self.rate), self.callback)
+        if self.rate:
+            self.after(int(1000.0 / self.rate), self.callback)
 
 
 text_count = 0
@@ -38,5 +42,5 @@ def my_callback(widget, args):
 
 
 if __name__ == "__main__":
-    app = App(title='title', width=640, height=480, user_callback=my_callback, rate=2)
+    app = App(title='title', width=640, height=480, user_callback=my_callback, rate=0)
     app.mainloop()
