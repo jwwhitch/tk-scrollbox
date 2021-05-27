@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
+import subprocess
+from datetime import datetime
 
 
 class App(tk.Tk):
@@ -19,10 +21,14 @@ class App(tk.Tk):
             self.after(0, self.callback)
 
     def insert(self, text, line=1, column=0):
+        self.scrolled_text.config(state=tk.NORMAL)
         self.scrolled_text.insert(f'{line}.{column}', text)
+        self.scrolled_text.config(state=tk.DISABLED)
 
     def clear(self):
+        self.scrolled_text.config(state=tk.NORMAL)
         self.scrolled_text.delete('1.0', tk.END)
+        self.scrolled_text.config(state=tk.DISABLED)
 
     def callback(self):
         self.user_callback(self, self.users_callback_args)
@@ -30,18 +36,13 @@ class App(tk.Tk):
             self.after(int(1000.0 / self.rate), self.callback)
 
 
-text_count = 0
-
-
 def my_callback(widget, args):
-    global text_count
-    widget.insert(f'new text {text_count}\n')
-    text_count = text_count + 1
-    if text_count > 20:
-        widget.clear()
-        text_count = 0
+    widget.clear()
+    widget.insert(subprocess.check_output('dir', shell=True))
+    widget.insert(f'{datetime.now()} Local\n')
+    widget.insert(f'{datetime.utcnow()} UTC\n')
 
 
 if __name__ == "__main__":
-    app = App(icon='icon.ico', title='title', width=640, height=480, user_callback=my_callback, rate=0)
+    app = App(icon='icon.ico', title='title', width=640, height=480, user_callback=my_callback, rate=0.5)
     app.mainloop()
