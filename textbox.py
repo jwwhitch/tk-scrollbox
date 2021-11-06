@@ -16,13 +16,12 @@ IGNORE_CASE = 0
 
 
 class App(tk.Tk):
-    def __init__(self, icon='icon.ico', title='', width=640, height=480, rate=1.0,
+    def __init__(self, title='', width=640, height=480, rate=1.0,
                  user_callback=None, user_callback_args=None):
         super().__init__()
         self.window_title = title
         self.user_callback = user_callback
         self.user_callback_args = user_callback_args
-        self.iconbitmap(default=icon)
         self.__set_title(self.window_title)
         self.geometry(f'{width}x{height}')
         self.__create_menu()
@@ -140,6 +139,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Display the contents of a file.')
     parser.add_argument('file', help='name of the file to open')
     program_args = parser.parse_args()
-    app = App(icon='icon.ico', title='AppTail', width=640, height=480, rate=1.0,
+    app = App(title='AppTail', width=640, height=480, rate=1.0,
               user_callback=WindowUpdate.window_update, user_callback_args=program_args.file)
     app.mainloop()
